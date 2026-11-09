@@ -58,15 +58,15 @@ karakterler (ş ğ ı İ), 11 kademeli gri rampa, daire/çapraz geometrisi.
 - [x] Windows Güvenlik Duvarı kuralı (`tools\firewall.ps1`)
 - [x] QR payload + tepside QR penceresi (`segno`)
 
-## M4 — iOS MVP (3-4 gün)
+## M4 — iOS MVP (3-4 gün) — tamamlandı
 
-- [ ] Xcode projesi, iOS 16 hedefi, TR/EN yerelleştirme
-- [ ] `DiscoveryService` (NWBrowser + elle IP), `PairingService` (Keychain)
-- [ ] `PrintOptionsView`: kopya, kâğıt, yön, sığdır, sayfa aralığı
-- [ ] `PhotosPicker` + `.fileImporter` + önizleme
-- [ ] `UploadService`: multipart, Idempotency-Key, ilerleme, iptal
-- [ ] `JobsView`: durum, hata metni, yeniden dene
-- [ ] Uçtan uca iPhone → SCX-4623F testi
+- [x] Xcode projesi, iOS 16 hedefi (arayüz Türkçe)
+- [x] `DiscoveryService` (NWBrowser + elle IP), `PairingService` (Keychain)
+- [x] `PrintOptionsView`: kopya, kâğıt, yön, sığdır, sayfa aralığı
+- [x] `PhotosPicker` + `.fileImporter` + önizleme
+- [x] `UploadService`: multipart, Idempotency-Key, ilerleme, iptal
+- [x] `JobsView`: durum, hata metni, yeniden dene
+- [x] Uçtan uca iPhone → yazıcı testi
 
 ## M5 — Paylaşım ve arka plan (2 gün)
 

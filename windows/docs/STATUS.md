@@ -66,7 +66,7 @@ Geliştirme için `PRINTBRIDGE_DATA_DIR` ile taşınabilir.
 
 1. **İlk çalıştırma sihirbazı** tamamlandı (yazıcı seçimi, firewall, otomatik başlatma).
 2. **Windows Güvenlik Duvarı kuralı**: `agent/firewall.py` + `tools/firewall.ps1`; tepsiden veya `--firewall` ile yönetici yetkisiyle eklenebilir.
-3. iOS uygulaması (M4) — Mac/Xcode erişimi gerekli.
+3. iOS uygulaması (M4) tamamlandı; kaynak kod `ios/` klasöründe, imzalı dağıtım (TestFlight / App Store) yok.
 4. TLS + sertifika pinleme (şimdilik LAN + bearer token; QR'da `fp` alanı ayrıldı).
 5. Temiz Windows 10 sanal makinesinde kurulum provası.
 
