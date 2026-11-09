@@ -1,0 +1,9 @@
+# PrintBridge — ajan verisi ve üretilen dosyalar depoya girmez.
+out/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+*.spec
+.venv/
