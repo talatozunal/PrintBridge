@@ -4,6 +4,7 @@ import UIKit
 struct JobDetailView: View {
     let initialJob: Job
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @State private var job: Job
     @State private var preview: Image?
     @State private var timer: Timer?
@@ -17,29 +18,30 @@ struct JobDetailView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(job.jobName ?? "İş").font(.title2.bold())
+                    Text(job.jobName ?? dil.metin("job.defaultName")).font(.title2.bold())
                     Text(statusText).foregroundStyle(.secondary)
                     ProgressView(value: job.progressValue)
                     if let pages = job.pages {
-                        Text("Sayfa: \(job.printedPages ?? 0)/\(pages)")
+                        Text(dil.metin("job.pages", job.printedPages ?? 0, pages))
                     }
                     if let err = job.error {
-                        Text(err.message).foregroundStyle(.red)
+                        Text(Yerellestirme.paylasilan.sunucuHatasi(kod: err.code, mesaj: err.message))
+                            .foregroundStyle(.red)
                     }
                     if let preview {
                         preview.resizable().scaledToFit()
                     }
                     HStack {
                         if !job.isTerminal {
-                            Button("İptal") { Task { await cancel() } }
+                            Button(dil.metin("job.cancel")) { Task { await cancel() } }
                         }
                         if job.status == "failed" {
-                            Button("Yeniden dene") { Task { await retry() } }
+                            Button(dil.metin("job.retry")) { Task { await retry() } }
                         }
                     }
                 }.padding()
             }
-            .navigationTitle("İş durumu")
+            .navigationTitle(dil.metin("job.title"))
             .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear { startPolling() }

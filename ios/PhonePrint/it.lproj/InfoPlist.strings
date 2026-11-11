@@ -1,0 +1,4 @@
+// PhonePrint — it
+"NSCameraUsageDescription" = "La fotocamera serve a scansionare il codice QR per l'associazione con il PC.";
+"NSLocalNetworkUsageDescription" = "L'accesso alla rete locale è necessario per trovare l'agente PrintBridge sulla stessa rete Wi-Fi e stampare.";
+"NSPhotoLibraryUsageDescription" = "L'accesso alla libreria foto serve a scegliere una foto da stampare.";

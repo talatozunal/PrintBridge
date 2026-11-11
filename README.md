@@ -41,7 +41,8 @@ Sistem iki parçadan oluşur:
 - Fotoğraf ve belge seçimi
 - Kopya sayısı, kâğıt boyutu, yön, sayfaya sığdırma ve sayfa aralığı seçenekleri
 - Yükleme durumu takibi, iptal, yeniden deneme ve iş geçmişi
-- Türkçe arayüz
+- Türkçe, İngilizce, Almanca, Fransızca ve İtalyanca arayüz; uygulama içinden
+  yeniden başlatmadan dil değiştirme
 
 **Windows ajanı**
 - Tek `.exe` (PyInstaller), tepsi uygulaması, isteğe bağlı otomatik başlatma

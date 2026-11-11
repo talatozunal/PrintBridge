@@ -4,11 +4,13 @@ import Combine
 @main
 struct PhonePrintApp: App {
     @StateObject private var appState = AppState()
+    @StateObject private var dil = Yerellestirme.paylasilan
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
+                .environmentObject(dil)
         }
     }
 }

@@ -1,0 +1,4 @@
+// PhonePrint — tr
+"NSCameraUsageDescription" = "PC ile eşleştirmek için QR kodu okumak amacıyla kamera kullanılır.";
+"NSLocalNetworkUsageDescription" = "PrintBridge ajanını aynı Wi-Fi ağında bulmak ve yazdırmak için yerel ağ erişimi gerekir.";
+"NSPhotoLibraryUsageDescription" = "Yazdırmak için fotoğraf seçmek amacıyla fotoğraf kitaplığına erişilir.";

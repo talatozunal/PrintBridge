@@ -154,8 +154,10 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .server(_, let message): return message
-        case .http(let status): return "HTTP \(status)"
+        case .server(let code, let message):
+            return Yerellestirme.paylasilan.sunucuHatasi(kod: code, mesaj: message)
+        case .http(let status):
+            return "HTTP \(status)"
         }
     }
 }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -12,9 +13,9 @@ struct ContentView: View {
                         connectionBanner
                     }
                     TabView {
-                        PrintView().tabItem { Label("Yazdır", systemImage: "printer") }
-                        JobHistoryView().tabItem { Label("İşler", systemImage: "list.bullet") }
-                        SettingsView().tabItem { Label("Ayarlar", systemImage: "gear") }
+                        PrintView().tabItem { Label(dil.metin("tab.print"), systemImage: "printer") }
+                        JobHistoryView().tabItem { Label(dil.metin("tab.jobs"), systemImage: "list.bullet") }
+                        SettingsView().tabItem { Label(dil.metin("tab.settings"), systemImage: "gear") }
                     }
                 }
             } else {
@@ -34,12 +35,12 @@ struct ContentView: View {
     private var connectionBanner: some View {
         HStack {
             Image(systemName: "wifi.exclamationmark")
-            Text("PC'ye ulaşılamıyor")
+            Text(dil.metin("conn.unreachable"))
             Spacer()
             if appState.isReconnecting {
                 ProgressView()
             } else {
-                Button("Tekrar dene") { Task { await appState.verifyConnection() } }
+                Button(dil.metin("conn.retry")) { Task { await appState.verifyConnection() } }
             }
         }
         .font(.footnote)

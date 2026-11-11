@@ -2,18 +2,20 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @State private var printers: [Printer] = []
+    @State private var isLanguagePresented = false
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Ajan") {
+                Section(dil.metin("settings.agent")) {
                     Text(appState.agentName ?? "-")
                     if let base = appState.baseURL {
                         Text(base.absoluteString).font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                Section("Yazıcılar") {
+                Section(dil.metin("settings.printers")) {
                     ForEach(printers) { p in
                         HStack {
                             Text(p.name)
@@ -23,12 +25,26 @@ struct SettingsView: View {
                     }
                 }
                 Section {
-                    Button("Eşleşmeyi kaldır", role: .destructive) {
+                    Button {
+                        isLanguagePresented = true
+                    } label: {
+                        HStack {
+                            Text(dil.metin("dil.sec"))
+                            Spacer()
+                            Text(dil.seciliDilAdi).foregroundStyle(.secondary)
+                        }
+                    }
+                    .sheet(isPresented: $isLanguagePresented) {
+                        DilSecici()
+                    }
+                }
+                Section {
+                    Button(dil.metin("settings.unpair"), role: .destructive) {
                         appState.clearSession()
                     }
                 }
             }
-            .navigationTitle("Ayarlar")
+            .navigationTitle(dil.metin("settings.title"))
             .task {
                 guard let base = appState.baseURL, let token = appState.token else { return }
                 let client = APIClient(baseURL: base, token: token)

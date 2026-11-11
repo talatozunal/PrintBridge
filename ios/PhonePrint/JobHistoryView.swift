@@ -2,6 +2,7 @@ import SwiftUI
 
 struct JobHistoryView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @State private var jobs: [Job] = []
     @State private var selected: Job?
 
@@ -23,7 +24,7 @@ struct JobHistoryView: View {
                     }
                 }
             }
-            .navigationTitle("İşler")
+            .navigationTitle(dil.metin("jobs.title"))
             .sheet(item: $selected) { JobDetailView(job: $0) }
             .task { await load() }
             .refreshable { await load() }

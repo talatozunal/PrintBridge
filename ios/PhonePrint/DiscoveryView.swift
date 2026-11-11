@@ -5,7 +5,9 @@ struct DiscoveryView: View {
     @State private var selected: DiscoveredAgent?
     @State private var showingManual = false
     @State private var showingScanner = false
+    @State private var isLanguagePresented = false
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
 
     var body: some View {
         NavigationStack {
@@ -20,14 +22,23 @@ struct DiscoveryView: View {
                     }
                 }
             }
-            .navigationTitle("PC Bul")
+            .navigationTitle(dil.metin("discovery.title"))
             .toolbar {
-                Button("QR tara") { showingScanner = true }
-                Button("Elle bağlan") { showingManual = true }
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button {
+                        isLanguagePresented = true
+                    } label: {
+                        Label(dil.metin("dil.sec"), systemImage: "globe")
+                    }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(dil.metin("discovery.qr")) { showingScanner = true }
+                    Button(dil.metin("discovery.manual")) { showingManual = true }
+                }
             }
             .overlay {
                 if discovery.agents.isEmpty {
-                    ProgressView("Aranıyor…")
+                    ProgressView(dil.metin("discovery.searching"))
                 }
             }
             .sheet(item: $selected) { agent in
@@ -52,6 +63,9 @@ struct DiscoveryView: View {
                     }
                 }
                 .ignoresSafeArea()
+            }
+            .sheet(isPresented: $isLanguagePresented) {
+                DilSecici()
             }
         }
         .onAppear { discovery.start() }
@@ -78,6 +92,7 @@ private func parsePairURL(_ code: String) -> DiscoveredAgent? {
 
 struct ManualConnectView: View {
     var onConnect: (DiscoveredAgent) -> Void
+    @EnvironmentObject private var dil: Yerellestirme
     @Environment(\.dismiss) private var dismiss
     @State private var host = ""
     @State private var port = "8477"
@@ -85,16 +100,16 @@ struct ManualConnectView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("IP veya host adı", text: $host)
+                TextField(dil.metin("manual.host"), text: $host)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                     .keyboardType(.URL)
-                TextField("Port", text: $port).keyboardType(.numberPad)
+                TextField(dil.metin("manual.port"), text: $port).keyboardType(.numberPad)
             }
-            .navigationTitle("Elle bağlan")
+            .navigationTitle(dil.metin("manual.title"))
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Bağlan") {
+                    Button(dil.metin("manual.connect")) {
                         guard !host.isEmpty, let p = Int(port) else { return }
                         onConnect(DiscoveredAgent(id: "manual-\(host)", name: host,
                                                   hostName: host, port: p, txt: [:]))
@@ -102,7 +117,7 @@ struct ManualConnectView: View {
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(dil.metin("common.cancel")) { dismiss() }
                 }
             }
         }

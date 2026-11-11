@@ -3,6 +3,7 @@ import SwiftUI
 struct PairingView: View {
     let agent: DiscoveredAgent
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @Environment(\.dismiss) private var dismiss
     @State private var pin = ""
     @State private var deviceName = UIDevice.current.name
@@ -12,24 +13,24 @@ struct PairingView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("PC") {
+                Section(dil.metin("pairing.pc")) {
                     Text(agent.name)
                     Text(agent.hostName).font(.caption).foregroundStyle(.secondary)
                 }
-                Section("Eşleştirme") {
-                    TextField("Cihaz adı", text: $deviceName)
-                    TextField("PIN", text: $pin).keyboardType(.numberPad)
+                Section(dil.metin("pairing.section")) {
+                    TextField(dil.metin("pairing.deviceName"), text: $deviceName)
+                    TextField(dil.metin("pairing.pin"), text: $pin).keyboardType(.numberPad)
                 }
                 if let error { Text(error).foregroundStyle(.red) }
             }
-            .navigationTitle("Eşleştir")
+            .navigationTitle(dil.metin("pairing.title"))
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Eşleştir") { Task { await pair() } }
+                    Button(dil.metin("pairing.action")) { Task { await pair() } }
                         .disabled(pin.count != 6 || isLoading)
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { dismiss() }
+                    Button(dil.metin("common.cancel")) { dismiss() }
                 }
             }
         }

@@ -51,15 +51,9 @@ struct Job: Codable, Identifiable {
     var progressValue: Double { progress ?? 0 }
 
     var statusText: String {
-        switch status {
-        case "queued": return "Kuyrukta"
-        case "rendering": return "Hazırlanıyor"
-        case "printing": return "Yazdırılıyor"
-        case "done": return "Tamamlandı"
-        case "failed": return "Başarısız"
-        case "canceled": return "İptal edildi"
-        default: return status
-        }
+        let anahtar = "status.\(status)"
+        let metin = Yerellestirme.paylasilan.metin(anahtar)
+        return metin == anahtar ? status : metin
     }
 }
 

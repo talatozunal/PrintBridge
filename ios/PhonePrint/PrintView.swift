@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 
 struct PrintView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var dil: Yerellestirme
     @State private var selectedItem: PhotosPickerItem?
     @State private var fileURL: URL?
     @State private var fileName: String?
@@ -18,46 +19,46 @@ struct PrintView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Dosya") {
+                Section(dil.metin("print.section.file")) {
                     PhotosPicker(selection: $selectedItem, matching: .images) {
-                        Label("Fotoğraf seç", systemImage: "photo")
+                        Label(dil.metin("print.pickPhoto"), systemImage: "photo")
                     }
-                    Button("Dosya seç") { isPickingFile = true }
+                    Button(dil.metin("print.pickFile")) { isPickingFile = true }
                     if let fileName { Text(fileName).font(.caption) }
                 }
-                Section("Seçenekler") {
-                    Picker("Kâğıt", selection: Binding(
+                Section(dil.metin("print.section.options")) {
+                    Picker(dil.metin("print.paper"), selection: Binding(
                         get: { options.paper ?? (appState.printers.first?.papers?.first ?? "A4") },
                         set: { options.paper = $0 }
                     )) {
                         ForEach(appState.printers.first?.papers ?? ["A4", "Letter"], id: \.self) { Text($0) }
                     }
-                    Stepper("Kopya: \(options.copies)", value: $options.copies, in: 1...99)
-                    Picker("Yön", selection: $options.orientation) {
-                        Text("Otomatik").tag("auto")
-                        Text("Dikey").tag("portrait")
-                        Text("Yatay").tag("landscape")
+                    Stepper(dil.metin("print.copies", options.copies), value: $options.copies, in: 1...99)
+                    Picker(dil.metin("print.orientation"), selection: $options.orientation) {
+                        Text(dil.metin("print.orientation.auto")).tag("auto")
+                        Text(dil.metin("print.orientation.portrait")).tag("portrait")
+                        Text(dil.metin("print.orientation.landscape")).tag("landscape")
                     }
-                    Picker("Sığdır", selection: $options.fit) {
-                        Text("Sığdır").tag("fit")
-                        Text("Doldur").tag("fill")
-                        Text("Gerçek boyut").tag("none")
+                    Picker(dil.metin("print.fit"), selection: $options.fit) {
+                        Text(dil.metin("print.fit.fit")).tag("fit")
+                        Text(dil.metin("print.fit.fill")).tag("fill")
+                        Text(dil.metin("print.fit.none")).tag("none")
                     }
-                    TextField("Sayfa aralığı (1-3,5)", text: Binding(
+                    TextField(dil.metin("print.pageRange"), text: Binding(
                         get: { options.pageRange ?? "" },
                         set: { options.pageRange = $0.isEmpty ? nil : $0 }
                     ))
-                    TextField("İş adı", text: Binding(
+                    TextField(dil.metin("print.jobName"), text: Binding(
                         get: { options.jobName ?? "" },
                         set: { options.jobName = $0.isEmpty ? nil : $0 }
                     ))
                 }
                 if let error { Text(error).foregroundStyle(.red) }
             }
-            .navigationTitle("Yazdır")
+            .navigationTitle(dil.metin("print.title"))
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Yazdır") { Task { await print() } }
+                    Button(dil.metin("print.action")) { Task { await print() } }
                         .disabled(fileURL == nil || isPrinting)
                 }
             }
@@ -89,7 +90,7 @@ struct PrintView: View {
                         try jpeg.write(to: tmp)
                         await MainActor.run {
                             fileURL = tmp
-                            fileName = "Fotoğraf"
+                            fileName = dil.metin("print.photoName")
                             error = nil
                         }
                     } catch {
